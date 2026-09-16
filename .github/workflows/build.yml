@@ -1,0 +1,61 @@
+name: Build CakBro All Platforms
+on:
+  push:
+    branches: [ main, master ]
+    tags: [ 'v*.*.*' ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        include:
+          - os: windows-latest
+            build_cmd: npm run build:win
+          - os: ubuntu-latest
+            build_cmd: npm run build:linux
+          - os: macos-latest
+            build_cmd: npm run build:mac
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: ${{ matrix.build_cmd }}
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: CakBro-${{ matrix.os }}
+          path: |
+            dist/*.exe
+            dist/*.AppImage
+            dist/*.deb
+            dist/*.rpm
+            dist/*.dmg
+            dist/*.zip
+          if-no-files-found: warn
+          retention-days: 30
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist-artifacts
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist-artifacts/**/*
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
