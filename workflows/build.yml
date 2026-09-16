@@ -1,0 +1,98 @@
+name: Build CakBro All Platforms
+
+on:
+  push:
+    branches: [ main, master ]
+    tags: [ 'v*.*.*' ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        include:
+          - os: windows-latest
+            build_cmd: npm run build:win
+          - os: ubuntu-latest
+            build_cmd: npm run build:linux
+          - os: macos-latest
+            build_cmd: npm run build:mac
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: ${{ matrix.build_cmd }}
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: CakBro-${{ matrix.os }}
+          path: |
+            dist/*.exe
+            dist/*.AppImage
+            dist/*.deb
+            dist/*.rpm
+            dist/*.dmg
+            dist/*.zip
+            dist/*.blockmap
+            dist/*.yml
+          if-no-files-found: warn
+          retention-days: 30
+
+  release:
+    # Hanya jalan saat Anda push tag v2.0.0
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist-artifacts
+      - name: Display artifacts
+        run: ls -R dist-artifacts
+      - name: Create GitHub Release v2.0.0
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist-artifacts/**/*
+          generate_release_notes: true
+          body: |
+            ## CakBro v2.0.0 — Safe Exam Browser Cross-Platform 🦾
+
+            **Logo Pakkar transparan** • Kiosk fullscreen • Blokir 60+ shortcut
+
+            ### 📦 Download sesuai OS siswa:
+            | OS | File |
+            |---|---|
+            | **Windows 10/11** | `CakBro-2.0.0-Portable.exe` (tanpa install) atau `CakBro-2.0.0-x64-Setup.exe` |
+            | **Linux Ubuntu/Debian** | `CakBro-2.0.0-x64.AppImage` (`chmod +x && ./`) atau `.deb` |
+            | **macOS Intel** | `CakBro-2.0.0-x64.dmg` |
+            | **macOS Apple Silicon (M1/M2/M3)** | `CakBro-2.0.0-arm64.dmg` |
+            | **Chromebook** | Buka `https://ujikom.pakkar.my.id/2026/09/uji-kompetensi.html` di Chrome → ⋮ → Install app (PWA), atau jalankan `.deb` via Linux Crostini |
+
+            ### 🔒 Fitur
+            - Kiosk fullscreen (sembunyikan taskbar/Dock)
+            - Blokir translate, notifikasi, popup
+            - Bottom bar: CakBro + Refresh + LOCKED + jam
+            - Keluar: `Ctrl+Alt+Shift+Q` → konfirmasi
+
+            ### 🚀 Cara pakai
+            Lihat `PANDUAN-SINGKAT.md` & `README.md` di repo.
+
+            > Dibangun otomatis via GitHub Actions untuk Windows, Linux, macOS. Chromebook via PWA.
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
