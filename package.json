@@ -70,26 +70,19 @@
       "artifactName": "CakBro-${version}-Portable.${ext}"
     },
     "linux": {
-      "target": [
-        {
-          "target": "AppImage",
-          "arch": [
-            "x64"
-          ]
-        },
-        {
-          "target": "deb",
-          "arch": [
-            "x64"
-          ]
-        },
-        {
-          "target": "rpm",
-          "arch": [
-            "x64"
-          ]
-        }
-      ],
+  "target": [
+    {
+      "target": "AppImage",
+      "arch": ["x64"]
+    }
+  ],
+  "icon": "assets/icon.png",
+  "category": "Education",
+  "artifactName": "CakBro-${version}-${arch}.${ext}",
+  "executableName": "cakbro",
+  "maintainer": "Pakkar <support@pakkar.my.id>",
+  "synopsis": "CakBro Safe Exam Browser"
+},
       "icon": "assets/icon.png",
       "category": "Education",
       "artifactName": "CakBro-${version}-${arch}.${ext}",
