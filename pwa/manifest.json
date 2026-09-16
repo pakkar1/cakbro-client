@@ -1,0 +1,34 @@
+{
+  "name": "CakBro Safe Exam Browser",
+  "short_name": "CakBro",
+  "description": "Safe Exam Browser v2.0 - Portable & Lightweight Kiosk Browser untuk ujian aman",
+  "start_url": "https://ujikom.pakkar.my.id/2026/09/uji-kompetensi.html",
+  "display": "fullscreen",
+  "orientation": "any",
+  "background_color": "#0d1117",
+  "theme_color": "#1a1a2e",
+  "scope": "https://ujikom.pakkar.my.id/",
+  "lang": "id",
+  "categories": ["education"],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Mulai Ujian",
+      "url": "https://ujikom.pakkar.my.id/2026/09/uji-kompetensi.html",
+      "description": "Buka halaman ujian"
+    }
+  ]
+}
