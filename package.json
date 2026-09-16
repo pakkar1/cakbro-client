@@ -3,7 +3,10 @@
   "version": "2.0.0",
   "description": "CakBro Safe Exam Browser v2.0 - Portable & Lightweight Kiosk Browser untuk ujian aman. Cross-platform: Windows, Linux, macOS, Chromebook",
   "main": "main.js",
-  "author": "Pakkar",
+  "author": {
+  "name": "Pakkar",
+  "email": "support@pakkar.my.id"
+},
   "license": "MIT",
   "private": true,
   "scripts": {
