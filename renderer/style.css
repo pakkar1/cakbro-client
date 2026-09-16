@@ -1,0 +1,104 @@
+/* CakBro v2.0 - Style untuk Shell & Bottom Bar */
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body {
+  width:100%; height:100%;
+  overflow:hidden;
+  background:#0d1117;
+  font-family:'Segoe UI', system-ui, -apple-system, sans-serif;
+  user-select:none;
+}
+
+/* SPLASH */
+.splash {
+  position:fixed; inset:0;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  background:#0d1117;
+  z-index:100;
+  transition:opacity 0.6s ease, visibility 0.6s;
+}
+.splash.hidden { opacity:0; visibility:hidden; pointer-events:none; }
+.splash-line {
+  width:100%; height:3px; background:#00d4ff; position:absolute; left:0;
+}
+.splash-line.top { top:0; }
+.splash-line.bottom { bottom:42px; /* di atas bottom bar */ }
+.splash-logo {
+  width:220px; max-width:60vw; height:auto; object-fit:contain;
+  margin-bottom:14px;
+  filter: drop-shadow(0 6px 20px rgba(0,0,0,0.4));
+}
+.splash-title {
+  font-size:42px; font-weight:800; color:#00d4ff; letter-spacing:1px; margin-bottom:6px;
+  text-shadow:0 0 20px rgba(0,212,255,0.3);
+}
+.splash-subtitle { font-size:14px; color:#cccccc; letter-spacing:2px; text-transform:uppercase; }
+.splash-divider { width:200px; height:2px; background:#333; margin:18px 0; position:relative; overflow:hidden; }
+.splash-divider::after { content:''; position:absolute; left:0; top:0; height:100%; width:40%; background:#00d4ff; animation:slide 1.5s infinite; }
+@keyframes slide { 0%{transform:translateX(-100%)} 100%{transform:translateX(350%)} }
+.splash-desc { font-size:13px; color:#888; margin-bottom:10px; }
+.splash-version { font-size:11px; color:#555; font-family:Consolas, monospace; }
+.splash-loader { margin-top:26px; width:260px; height:3px; background:#222; border-radius:2px; overflow:hidden; }
+.loader-bar { height:100%; width:30%; background:#00d4ff; border-radius:2px; animation:load 1.2s ease-in-out infinite; }
+@keyframes load { 0%{transform:translateX(-100%)} 50%{transform:translateX(120%)} 100%{transform:translateX(300%)} }
+
+/* BOTTOM BAR - 42px */
+.bottom-bar {
+  position:fixed; bottom:0; left:0; right:0;
+  height:42px;
+  background:#1a1a2e;
+  display:flex; flex-direction:column;
+  z-index:50;
+  border-top:none;
+  box-shadow:0 -2px 20px rgba(0,0,0,0.5);
+}
+.bar-accent { height:2px; width:100%; background:#00d4ff; flex-shrink:0; }
+.bar-content {
+  flex:1; display:flex; align-items:center; justify-content:space-between;
+  padding:0 14px;
+  gap:12px;
+}
+.bar-left, .bar-right { display:flex; align-items:center; gap:10px; }
+.brand-logo {
+  height:28px; width:auto; object-fit:contain;
+  background: transparent;
+  padding: 0;
+  filter: drop-shadow(0 1px 4px rgba(0,0,0,0.5));
+}
+.brand {
+  font-size:15px; font-weight:800; color:#00d4ff; letter-spacing:0.5px;
+  cursor:default;
+}
+.separator { width:1px; height:28px; background:#444; opacity:0.6; }
+.btn-refresh {
+  display:flex; align-items:center; gap:6px;
+  background:#0f3460; color:#fff; border:none;
+  padding:6px 14px; border-radius:6px;
+  font-size:12.5px; font-weight:500; cursor:pointer;
+  transition:all 0.2s;
+  border:1px solid rgba(255,255,255,0.05);
+}
+.btn-refresh:hover { background:#133a6b; transform:translateY(-1px); box-shadow:0 4px 12px rgba(15,52,96,0.4); }
+.btn-refresh:active { transform:translateY(0); }
+.status-text { font-size:12px; color:#888; letter-spacing:0.3px; }
+@media (max-width:700px) { .status-text { display:none; } }
+
+.locked-badge {
+  display:flex; align-items:center; gap:5px;
+  font-size:11px; font-weight:700; color:#4ade80; letter-spacing:0.8px;
+  background:rgba(74,222,128,0.08); padding:4px 8px; border-radius:20px; border:1px solid rgba(74,222,128,0.2);
+}
+.clock {
+  font-family:Consolas, 'Courier New', monospace;
+  font-size:13px; font-weight:500; color:#aaa; letter-spacing:0.5px;
+  min-width:72px; text-align:right;
+}
+.btn-exit {
+  background:rgba(255,70,70,0.1); border:1px solid rgba(255,70,70,0.2);
+  color:#ff6b6b; width:28px; height:28px; border-radius:6px;
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+  transition:all 0.2s;
+}
+.btn-exit:hover { background:rgba(255,70,70,0.2); color:#fff; }
+
+/* Scrollbar hide */
+::-webkit-scrollbar { display:none; }
